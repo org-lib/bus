@@ -2,7 +2,6 @@ Svc := "Bus"
 Name := "bus"
 Type := "json"
 GOENV = g use 1.16
-SETPROXY = GOPROXY=https://goproxy.cn
 GOTIDY = go mod tidy
 GOVENDOR = go mod vendor
 GOBUILD = go build -o .\build\amd64\bus.exe .\example\makeapp\main.go
