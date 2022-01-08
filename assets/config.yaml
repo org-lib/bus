@@ -1,0 +1,20 @@
+server:
+  listen_ip: "0.0.0.0"
+  listen_port: "10103"
+log:
+  path: "./agg.log"
+  max_size: 100
+  max_backup: 30
+  max_age: 30
+  level: "debug"
+mysql:
+  host: "xxxxxxxx"
+  port: "xxxx"
+  username: "xx"
+  password: "xx"
+clickhouse:
+  host: "localhost"
+  port: "8123"
+  database: "xxxx"
+  username: "default"
+  password: "xxxxx"

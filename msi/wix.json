@@ -1,0 +1,51 @@
+{
+  "product": "xxxxxx",
+  "company": "shangguannihao",
+  "license": "LICENSE",
+  "upgrade-code": "",
+  "files": {
+    "guid": "",
+    "items": [
+      "build/amd64/xxxxxx.exe"
+    ]
+  },
+  "directories": [
+    "assets"
+  ],
+  "env": {
+    "guid": "",
+    "vars": [
+      {
+        "name": "some",
+        "value": "value",
+        "permanent": "no",
+        "system": "no",
+        "action": "set",
+        "part": "last"
+      }
+    ]
+  },
+  "shortcuts": {
+    "guid": "",
+    "items": [
+      {
+        "name": "xxxxxx",
+        "description": "xxxxxx web server",
+        "target": "[INSTALLDIR]\\xxxxxx.exe",
+        "wdir": "INSTALLDIR",
+        "icon":"assets/ico.ico"
+      }
+    ]
+  },
+  "hooks": [
+    {"when": "install", "command": "sc.exe create XxxxxxSvc binPath=\"[INSTALLDIR]xxxxxx.exe -conf [INSTALLDIR]assets\\config.yaml\" type=share start=auto DisplayName=\"xxxxxx\""},
+    {"when": "install", "command": "sc.exe start XxxxxxSvc"},
+    {"when": "uninstall", "command": "sc.exe delete XxxxxxSvc"}
+  ],
+  "choco": {
+    "description": "xxxxxx program",
+    "project-url": "xxxxxx",
+    "tags": "xxxxxx",
+    "license-url": "xxxxxx"
+  }
+}
