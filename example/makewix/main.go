@@ -21,5 +21,5 @@ func main() {
 	//启动的配置文件	需要放在当前目录assets/config.yaml
 	//ico.ico		需要放在当前目录assets/ico.ico
 
-	msi.SetJson(os.Args[1], os.Args[2], os.Args[3], wix)
+	msi.SetJson(os.Args[1], os.Args[2], os.Args[3], os.Args[4], wix)
 }

@@ -49,7 +49,7 @@ var (
     ]
   },
   "hooks": [
-    {"when": "install", "command": "sc.exe create XxxxxxSvc binPath=\"[INSTALLDIR]xxxxxx.exe -conf [INSTALLDIR]assets\\config.yaml\" type=share start=auto DisplayName=\"xxxxxx\""},
+    {"when": "install", "command": "sc.exe create XxxxxxSvc binPath=\"[INSTALLDIR]xxxxxx.exe yyyyyy.cnf\" type=share start=auto DisplayName=\"xxxxxx\""},
     {"when": "install", "command": "sc.exe start XxxxxxSvc"},
     {"when": "uninstall", "command": "sc.exe delete XxxxxxSvc"}
   ],
@@ -68,15 +68,16 @@ type Msi struct {
 	Task     int64    `json:"task"`
 	Svc      string   `json:"svc"`
 	Display  string   `json:"display"`
+	Conf     string   `json:"conf"`
 	Commands []string `json:"commands"`
 }
 
 //获取json文件
 
-func SetJson(svc string, name string, filetype string, filename string) {
+func SetJson(svc string, name string, filetype string, cnf string, filename string) {
 	v := viper.New()
 	v.SetConfigType(filetype) // 设置配置文件的类型
-	fj := strings.ReplaceAll(strings.ReplaceAll(FileJosn, "xxxxxx", name), "Xxxxxx", svc)
+	fj := strings.ReplaceAll(strings.ReplaceAll(strings.ReplaceAll(FileJosn, "xxxxxx", name), "Xxxxxx", svc), "yyyyyy.cnf", cnf)
 	v.ReadConfig(bytes.NewBuffer([]byte(fj)))
 	v.WriteConfigAs(filename)
 }
