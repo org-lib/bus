@@ -1,24 +1,33 @@
+#config args
 Svc := Bus
 Name := bus
-Type := json
 Cnf  := -conf [INSTALLDIR]assets/config.yaml
+Type := json
+WixJson := wix.json
 Version := 0.1
+Arch := amd64
 ProjectPath := $(GOPATH)/$(Name)
+BuildDir := build/amd64
+MainDoGo := example/makeapp/main.go
+MakeWixMainDoGo := $(ProjectPath)/example/makewix/main.go
 
+#gowix.json
+BuildGoWixJson := $(MakeWixMainDoGo)
+
+ExeFile := $(ProjectPath)/$(BuildDir)/$(Name).exe
+BuildGoMainFile := $(ProjectPath)/$(MainDoGo)
+MakeMsi := makemsi.exe make --msi
+MakeDotMsi := $(ProjectPath)/$(BuildDir)/$(Svc).msi
+#go env config
 GoBuild := go build -o
 GoRun :=  go run
-ExeFile := $(ProjectPath)/$(Name).exe
-BuildGoMainFile := $(ProjectPath)\example\makeapp\main.go
-BuildGoWixJson := $(ProjectPath)\example\makewix\main.go
-
-GOENV := g use 1.16
-GOTIDY := go mod tidy
+GoENV := g use 1.16
+GoTIDY := go mod tidy
 GOVENDOR := go mod vendor
-
-MakeMsiExe := makemsi.exe make --msi
-GOBUILD = $(GoBuild) $(ExeFile) $(BuildGoMainFile)
-GOBUILDWIX = $(GoRun) $(BuildGoWixJson) "$(Svc)" "$(Name)" "$(Cnf)" "$(Type)"
-MAKEMSI = $(MakeMsiExe) $(ProjectPath)\build\amd64\$(Svc).msi --version $(Version) --arch amd64
+#go build and make msi
+GoBUILD = $(GoBuild) $(ExeFile) $(BuildGoMainFile)
+GoBuildWix = $(GoRun) $(BuildGoWixJson) "$(Svc)" "$(Name)" "$(Type)" "$(Cnf)" "$(WixJson)"
+DoMakeMSI = $(MakeMsi) $(MakeDotMsi) --version $(Version) --arch $(Arch)
 
 normal: makebus
 
@@ -26,10 +35,13 @@ makebus:
 	@ECHO "Go to building $(Svc).msi"
 	@ECHO $(ProjectPath)
 	cd $(ProjectPath)
-	$(GOENV)
-	$(GOTIDY)
+	$(GoENV)
+	$(GoTIDY)
 	$(GOVENDOR)
-	$(GOBUILD)
-	$(GOBUILDWIX)
-	$(MAKEMSI)
-	-del wix.json
+	$(GoBUILD)
+	$(GoBuildWix)
+	$(DoMakeMSI)
+	-del $(WixJson)
+#@ping 127.0.0.1 -n 20
+#无法删除....
+#-del $(ExeFile)

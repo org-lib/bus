@@ -68,7 +68,6 @@ type Msi struct {
 	Task     int64    `json:"task"`
 	Svc      string   `json:"svc"`
 	Display  string   `json:"display"`
-	Conf     string   `json:"conf"`
 	Commands []string `json:"commands"`
 }
 

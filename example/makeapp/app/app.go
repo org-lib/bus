@@ -43,7 +43,7 @@ func Bus() {
 	v1 := router.Group("api")
 	{
 		v1.GET("/hello", handler.HelloWorld)
-		v1.POST("/hello", handler.Gus)
+		v1.POST("/msi", handler.Gus)
 	}
 	config.Work.Wait()
 
