@@ -1,13 +1,11 @@
 package logger
 
 import (
-	"fmt"
 	"net"
 	"net/http"
 	"net/http/httputil"
 	"os"
 	"path/filepath"
-	"runtime"
 	"runtime/debug"
 	"strings"
 	"time"
@@ -30,27 +28,9 @@ func Exists(f string) bool {
 }
 
 func init() {
-	logFile, fn := filepath.Split(logFilePath)
-	switch logFile {
-	case "./":
-		switch runtime.GOOS {
-		case "windows":
-			logFilePath = fn
-		default:
-			logFilePath = fmt.Sprintf("%v%v", "/tmp/", fn)
-			_ = os.MkdirAll("/tmp", 0644)
-		}
-	case ".\\":
-		switch runtime.GOOS {
-		case "windows":
-			logFilePath = fn
-		default:
-			logFilePath = fmt.Sprintf("%v%v", "/tmp/", fn)
-			_ = os.MkdirAll("/tmp", 0644)
-		}
-	default:
-		_ = os.MkdirAll(logFile, 0644)
-	}
+	logFile, _ := filepath.Split(logFilePath)
+	os.MkdirAll(logFile, 0777)
+
 	Log = NewLogger()
 }
 
@@ -60,13 +40,7 @@ func newLoggerHook() *lumberjack.Logger {
 	maxBackup := config.Config.V.GetInt("log.max_backup")
 
 	if logFilePath == "" {
-		switch runtime.GOOS {
-		case "windows":
-			logFilePath = "D:\\agent.log"
-		default:
-			logFilePath = fmt.Sprintf("%v", "/tmp/agent.log")
-			_ = os.MkdirAll("/tmp", 0644)
-		}
+		logFilePath = "./log/agent.log"
 	}
 	if maxAge == 0 {
 		maxAge = 30
