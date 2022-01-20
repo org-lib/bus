@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"github.com/axgle/mahonia"
 	"github.com/gin-gonic/gin"
 	"github.com/org-lib/bus/config"
 	"github.com/org-lib/bus/logger"
@@ -21,6 +22,10 @@ func HelloWorld(ctx *gin.Context) {
 type Message struct {
 	msi.Msi
 }
+
+var (
+	enc = mahonia.NewEncoder("gbk")
+)
 
 func Gus(ctx *gin.Context) {
 	//全局异常抓捕
@@ -113,6 +118,11 @@ func doMsi(m msi.Msi) (error, string) {
 	// ... 交互 in
 	for i := 0; i < len(m.Commands); i++ {
 		stdout, stderr, err := shell.Execute(m.Commands[i])
+		//中文解码
+
+		stdout = enc.ConvertString(stdout)
+		stderr = enc.ConvertString(stderr)
+
 		outStr = fmt.Sprintf("%v", stdout)
 		if err != nil {
 			logger.Log.Error("Making MSI File Error", zap.String("MSI stderr", stderr))
