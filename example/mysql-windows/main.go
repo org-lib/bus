@@ -21,10 +21,10 @@ func main() {
 		Database:     "mysql",
 		Username:     config.Config.V.GetString("mysql.username"),
 		Password:     config.Config.V.GetString("mysql.password"),
-		Timeout:      0,
-		ReadTimeout:  0,
-		WriteTimeout: 0,
-		Charset:      "",
+		Timeout:      3000,
+		ReadTimeout:  3000,
+		WriteTimeout: 3000,
+		Charset:      "utf8",
 	}
 	cfg.Database = "mysql"
 
