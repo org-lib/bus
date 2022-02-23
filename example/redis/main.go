@@ -55,6 +55,12 @@ func main() {
 	fmt.Println("*********************************** Keyspace")
 	fmt.Println(redisInfo["Keyspace"])
 	fmt.Println(client.Info("Keyspace").String())
+
+	//info2map
+	var redisInfo2 = make(map[string]interface{})
+	redisInfo2, err = redis.Info2Map(client)
+
+	fmt.Println(redisInfo2["role"])
 	logger.Log.Info(fmt.Sprintf("Redis connection success!"))
 
 }
