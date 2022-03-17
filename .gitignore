@@ -18,7 +18,6 @@
 vendor/
 .idea/
 build/
-proto/
 log/
 # Config yaml /json etc.
 configdevx.yaml
