@@ -76,7 +76,7 @@ func (h *MyEventHandler) OnDDL(nextPos mysql.Position, queryEvent *replication.Q
 		string(queryEvent.Schema),        //库名
 		string(queryEvent.Query),         //变更的sql语句
 		string(queryEvent.StatusVars[:]), //测试显示乱码
-		queryEvent.SlaveProxyID) //从库代理ID？
+		queryEvent.SlaveProxyID)          //从库代理ID？
 	fmt.Println("OnDDL:", record, query_event)
 	return nil
 }
