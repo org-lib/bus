@@ -189,3 +189,13 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+// SetLogPath 允许修改配置文件位置
+func SetLogPath(file string) {
+	logFile, _ := filepath.Split(file)
+	if !Exists(file) {
+		os.MkdirAll(logFile, 0777)
+	}
+	logFilePath = logFile
+	Log = NewLogger()
+}
