@@ -2,10 +2,11 @@ package notify
 
 import "github.com/martinlindhe/notify"
 
-func Notify(appname, notice, text string) {
+func Notify(appname, text string) {
 	// show a notification
-	notify.Notify("app name", "notice", "some text", "assets/ico.ico")
-
+	notify.Notify(appname, "notice", text, "assets/ico.ico")
+}
+func Alert(appname, notice, text string) {
 	// show a notification and play a alert sound
-	notify.Alert("app name", "alert", "some text", "assets/ico.ico")
+	notify.Alert(appname, "alert", text, "assets/ico.ico")
 }
