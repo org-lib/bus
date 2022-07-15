@@ -6,6 +6,7 @@ import (
 	"github.com/go-mysql-org/go-mysql/mysql"
 	"github.com/go-mysql-org/go-mysql/replication"
 	"github.com/org-lib/bus/config"
+	"time"
 )
 
 type MyEventHandler struct {
@@ -27,7 +28,9 @@ type C_Sharp_Arg struct {
 //监听数据记录
 func (h *MyEventHandler) OnRow(ev *canal.RowsEvent) error {
 	//record := fmt.Sprintf("%s %v %v %v %s\n",e.Action,e.Rows,e.Header,e.Table,e.String())
-
+	if ev.Table.Name != config.Config.V.GetString("mysql.tables") {
+		return nil
+	}
 	//库名，表名，行为，数据记录
 	record := fmt.Sprintf("%v %v %s %v\n", ev.Table.Schema, ev.Table.Name, ev.Action, ev.Rows)
 	fmt.Println(record)
@@ -37,6 +40,7 @@ func (h *MyEventHandler) OnRow(ev *canal.RowsEvent) error {
 		//字段名，字段的索引顺序，字段对应的值
 		row := fmt.Sprintf("%v, %v, %v 。\n", currColumn.Name, columnIndex, ev.Rows[len(ev.Rows)-1][columnIndex])
 		fmt.Println("row info:", row)
+		time.Sleep(time.Second * 2)
 	}
 	return nil
 }
@@ -102,13 +106,13 @@ func DefaultExport(csa *C_Sharp_Arg) {
 
 	c.SetEventHandler(&MyEventHandler{})
 	//mysql-bin.000004, 1027
-	startPos := mysql.Position{Name: "mysql-bin.000001", Pos: 0}
+	//startPos := mysql.Position{Name: "mysql-bin.000001", Pos: 0}
 
 	fmt.Println("Go run")
 	//从头开始监听
-	//c.Run()
+	c.Run()
 	//根据位置监听
-	c.RunFrom(startPos)
+	//c.RunFrom(startPos)
 }
 func main() {
 	csa_in := C_Sharp_Arg{
