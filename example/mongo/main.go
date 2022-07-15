@@ -17,12 +17,12 @@ func main() {
 	//定义 cfg 对象
 	var cfg *mongodb.Info
 	cfg = &mongodb.Info{
-		Host:          config.Config.V.GetString("mongodb.host"),
-		Port:          config.Config.V.GetString("mongodb.port"),
-		Username:      config.Config.V.GetString("mongodb.username"),
-		Password:      url.QueryEscape(config.Config.V.GetString("mongodb.password")),
-		DefaultAuthDB: config.Config.V.GetString("mongodb.defaultAuthDB"),
-		Options:       config.Config.V.GetString("mongodb.replicaSet"),
+		Host:          config.Config.V.GetString("mongo.host"),
+		Port:          config.Config.V.GetString("mongo.port"),
+		Username:      config.Config.V.GetString("mongo.username"),
+		Password:      url.QueryEscape(config.Config.V.GetString("mongo.password")),
+		DefaultAuthDB: config.Config.V.GetString("mongo.defaultAuthDB"),
+		Options:       config.Config.V.GetString("mongo.replicaSet"),
 	}
 
 	//获取数据库实例连接
