@@ -1,8 +1,8 @@
 package main
 
 import (
+	"fmt"
 	"github.com/antlr/antlr4/runtime/Go/antlr"
-	logs "github.com/danbai225/go-logs"
 	"github.com/org-lib/bus/parser"
 	"strings"
 )
@@ -36,11 +36,14 @@ func GetTableNames(sql string, sqlType string) []string {
 		antlr.ParseTreeWalkerDefault.Walk(&ml, sqlParser.DmlStatement())
 	case "ddl":
 		antlr.ParseTreeWalkerDefault.Walk(&ml, sqlParser.DdlStatement())
+	case "dql":
+		antlr.ParseTreeWalkerDefault.Walk(&ml, sqlParser.SelectStatement())
 	}
 	return ml.GetTableNames()
 }
 
 func main() {
-	sql := "SELECT without FROM fails;"
-	logs.Info(GetTableNames(sql, "dml"))
+	sql := "alter table `t_bi_user_shop_middle` add UNIQUE KEY `uniq_t_user_shop_middle_002` (`shop_id`,`user_id`,`role_type`,`is_delete`,`app_code`,`add_from_role_id`) USING BTREE;"
+	//logs.Info(GetTableNames(sql, "dml"))
+	fmt.Println(GetTableNames(sql, "ddl"))
 }
