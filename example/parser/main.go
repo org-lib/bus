@@ -10,6 +10,7 @@ import (
 type Ml struct {
 	*parser.BaseMySqlParserListener
 	tableNames map[string]struct{}
+	roleName   map[string]struct{}
 }
 
 func (m *Ml) EnterTableName(ctx *parser.TableNameContext) {
@@ -41,9 +42,69 @@ func GetTableNames(sql string, sqlType string) []string {
 	}
 	return ml.GetTableNames()
 }
+func GetSelectColumnElement(sql string, sqlType string) []string {
+	tokenStream := antlr.NewCommonTokenStream(parser.NewMySqlLexer(antlr.NewInputStream(strings.ToUpper(sql))), antlr.TokenDefaultChannel)
+	sqlParser := parser.NewMySqlParser(tokenStream)
+	ml := Ml{}
+	switch sqlType {
+	case "dml":
+		antlr.ParseTreeWalkerDefault.Walk(&ml, sqlParser.DmlStatement())
+	case "ddl":
+		antlr.ParseTreeWalkerDefault.Walk(&ml, sqlParser.DdlStatement())
+	case "dql":
+		antlr.ParseTreeWalkerDefault.Walk(&ml, sqlParser.SelectStatement())
+	}
+	return ml.GetSelectColumnElement()
+}
+func GetSelectExpressionElement(sql string, sqlType string) []string {
+	tokenStream := antlr.NewCommonTokenStream(parser.NewMySqlLexer(antlr.NewInputStream(strings.ToUpper(sql))), antlr.TokenDefaultChannel)
+	sqlParser := parser.NewMySqlParser(tokenStream)
+	ml := Ml{}
+	switch sqlType {
+	case "dml":
+		antlr.ParseTreeWalkerDefault.Walk(&ml, sqlParser.DmlStatement())
+	case "ddl":
+		antlr.ParseTreeWalkerDefault.Walk(&ml, sqlParser.DdlStatement())
+	case "dql":
+		antlr.ParseTreeWalkerDefault.Walk(&ml, sqlParser.SelectStatement())
+	}
+	return ml.GetSelectExpressionElement()
+}
 
 func main() {
-	sql := "alter table `t_bi_user_shop_middle` add UNIQUE KEY `uniq_t_user_shop_middle_002` (`shop_id`,`user_id`,`role_type`,`is_delete`,`app_code`,`add_from_role_id`) USING BTREE;"
+	sql := "select name from tablea where id=(select id from tableb where x='n');"
 	//logs.Info(GetTableNames(sql, "dml"))
-	fmt.Println(GetTableNames(sql, "ddl"))
+	fmt.Println(GetTableNames(sql, "dql"))
+	fmt.Println(GetSelectColumnElement(sql, "dql"))
+	fmt.Println(GetSelectExpressionElement(sql, "dql"))
+}
+func (m *Ml) EnterSelectColumnElement(ctx *parser.SelectColumnElementContext) {
+	if m.roleName == nil {
+		m.roleName = make(map[string]struct{})
+	}
+	m.roleName[ctx.GetText()] = struct{}{}
+}
+func (m *Ml) GetSelectColumnElement() []string {
+	arr := make([]string, 0)
+	if m.roleName != nil {
+		for k := range m.roleName {
+			arr = append(arr, k)
+		}
+	}
+	return arr
+}
+func (m *Ml) EnterSelectExpressionElement(ctx *parser.SelectExpressionElementContext) {
+	if m.roleName == nil {
+		m.roleName = make(map[string]struct{})
+	}
+	m.roleName[ctx.GetText()] = struct{}{}
+}
+func (m *Ml) GetSelectExpressionElement() []string {
+	arr := make([]string, 0)
+	if m.roleName != nil {
+		for k := range m.roleName {
+			arr = append(arr, k)
+		}
+	}
+	return arr
 }
