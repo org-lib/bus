@@ -13,7 +13,7 @@ type Info struct {
 	SecretKey string `json:"-"`
 	Region    string `json:"-"`
 	Currency  string `json:"-"`
-	Dir       string `json:"-"`
+	Bucket    string `json:"-"`
 	TmpDir    string `json:"-"`
 }
 
