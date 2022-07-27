@@ -70,13 +70,29 @@ func GetSelectExpressionElement(sql string, sqlType string) []string {
 	}
 	return ml.GetSelectExpressionElement()
 }
+func GetFromClause(sql string, sqlType string) []string {
+	tokenStream := antlr.NewCommonTokenStream(parser.NewMySqlLexer(antlr.NewInputStream(strings.ToUpper(sql))), antlr.TokenDefaultChannel)
+	sqlParser := parser.NewMySqlParser(tokenStream)
+	ml := Ml{}
+	switch sqlType {
+	case "dml":
+		antlr.ParseTreeWalkerDefault.Walk(&ml, sqlParser.DmlStatement())
+	case "ddl":
+		antlr.ParseTreeWalkerDefault.Walk(&ml, sqlParser.DdlStatement())
+	case "dql":
+		antlr.ParseTreeWalkerDefault.Walk(&ml, sqlParser.SelectStatement())
+	}
+	return ml.GetFromClause()
+}
 
 func main() {
-	sql := "select name from tablea where id=(select id from tableb where x='n');"
+	//FromClauseContext
+	sql := "select name from tablea where 1!2"
 	//logs.Info(GetTableNames(sql, "dml"))
 	fmt.Println(GetTableNames(sql, "dql"))
-	fmt.Println(GetSelectColumnElement(sql, "dql"))
-	fmt.Println(GetSelectExpressionElement(sql, "dql"))
+	//fmt.Println(GetSelectColumnElement(sql, "dql"))
+	//fmt.Println(GetSelectExpressionElement(sql, "dql"))
+	fmt.Println(GetFromClause(sql, "dql"))
 }
 func (m *Ml) EnterSelectColumnElement(ctx *parser.SelectColumnElementContext) {
 	if m.roleName == nil {
@@ -85,6 +101,21 @@ func (m *Ml) EnterSelectColumnElement(ctx *parser.SelectColumnElementContext) {
 	m.roleName[ctx.GetText()] = struct{}{}
 }
 func (m *Ml) GetSelectColumnElement() []string {
+	arr := make([]string, 0)
+	if m.roleName != nil {
+		for k := range m.roleName {
+			arr = append(arr, k)
+		}
+	}
+	return arr
+}
+func (m *Ml) EnterFromClause(ctx *parser.FromClauseContext) {
+	if m.roleName == nil {
+		m.roleName = make(map[string]struct{})
+	}
+	m.roleName[ctx.GetWhereExpr().GetText()] = struct{}{}
+}
+func (m *Ml) GetFromClause() []string {
 	arr := make([]string, 0)
 	if m.roleName != nil {
 		for k := range m.roleName {
