@@ -20,6 +20,9 @@ type Info struct {
 // Open 获取一个数据库连接
 func Open(cnf *Info) (*gorm.DB, error) {
 	// 可以在api包里设置成init函数
+	if cnf.Charset == "" {
+		cnf.Charset = "utf8mb4"
+	}
 	conn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%v&parseTime=True&loc=Local",
 		cnf.Username, cnf.Password, cnf.Host, cnf.Port, cnf.Database, cnf.Charset)
 	return gorm.Open(mysql.Open(conn), &gorm.Config{})
