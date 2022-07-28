@@ -22,7 +22,8 @@ type Info struct {
 }
 
 //?timeout=3000ms&readTimeout=3000ms&writeTimeout=3000ms&charset=utf8
-//获取一个数据库连接
+
+// Open 获取一个数据库连接
 func Open(cnf *Info) (*sql.DB, error) {
 	if strings.Trim(cnf.Database, "") == "" {
 		return nil, errors.New("*** 请至指定一个数据库名称")
