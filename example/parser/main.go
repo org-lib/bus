@@ -87,12 +87,12 @@ func GetFromClause(sql string, sqlType string) []string {
 
 func main() {
 	//FromClauseContext
-	sql := "select name from tablea where 1!2"
+	sql := "create table a(id int(10) ,name);"
 	//logs.Info(GetTableNames(sql, "dml"))
-	fmt.Println(GetTableNames(sql, "dql"))
+	fmt.Println(GetTableNames(sql, "ddl"))
 	//fmt.Println(GetSelectColumnElement(sql, "dql"))
 	//fmt.Println(GetSelectExpressionElement(sql, "dql"))
-	fmt.Println(GetFromClause(sql, "dql"))
+	//fmt.Println(GetFromClause(sql, "dql"))
 }
 func (m *Ml) EnterSelectColumnElement(ctx *parser.SelectColumnElementContext) {
 	if m.roleName == nil {
