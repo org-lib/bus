@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/openark/golib/sqlutils"
 	"github.com/org-lib/bus/config"
 	"github.com/org-lib/bus/db/postgresql"
 	"github.com/org-lib/bus/logger"
@@ -37,10 +38,52 @@ func main() {
 	var users []TStoreTemplateTask
 	//   查询 执行用Scan 和Find 一样
 	db = db.Raw("select create_date,id,end_date,order_code,relate_id,request_data,response_date,retry_time,sku_code,status,type,execute_date from t_store_template_task limit 10").Scan(&users)
-	//db = db.Raw("select * from t_store_template_task limit 10").Find(&users)
 	for i, user := range users {
 		fmt.Println("第", i, "个 User：", user.CDate)
 	}
+
+	db2, err := postgresql.OpenPlus(cfg)
+	if err != nil {
+		logger.Log.Error(fmt.Sprintf("获取数据库实例连接，失败：%v", err), zap.String("postgres", "5432"))
+		panic(err)
+	}
+	defer db2.Close()
+
+	//unix/linux 可用 sqlutils
+	//sqlutils.QueryRowsMap 不支持在Windows 上运行，log 包异常
+
+	//（sqlutils postgresql 不支持QueryRowsMap.arg 参数形式）
+
+	err = sqlutils.QueryRowsMap(db2, `select * from t_store_template_task limit 1`, func(m sqlutils.RowMap) error {
+		logger.Log.Info("数据库返回信息：", zap.String("response_date", m.GetString("response_date")))
+		logger.Log.Info("数据库返回信息：", zap.String("order_code", m.GetString("order_code")))
+		logger.Log.Info("数据库返回信息：", zap.String("create_date", m.GetString("create_date")))
+		return nil
+	})
+	if err != nil {
+		logger.Log.Error(fmt.Sprintf("数据库查询，失败：%v", err), zap.String("postgres2", "运行失败！"))
+	}
+
+	/*
+		##测试null和空字符串
+			CREATE TABLE testa(
+			"id" bigserial NOT NULL,
+			"name" char(50) NULL,
+			PRIMARY KEY(id)
+			);
+			insert into testa values(1,'1');
+			insert into testa values(2,'2');
+			insert into testa values(3,'');
+			insert into testa values(4,null);
+			insert into testa values(5,null);
+	*/
+	var test_a []TestA
+	//   查询 执行用Scan 和Find 一样
+	db = db.Raw("select id,name from testa limit 10").Scan(&test_a)
+	for i, user := range test_a {
+		fmt.Println("第-", i, "个 User：", user, "changdu:=", len(user.Name))
+	}
+
 }
 
 type TStoreTemplateTask struct {
@@ -56,6 +99,10 @@ type TStoreTemplateTask struct {
 	ExecuteDate  time.Time
 	CDate        time.Time `gorm:"column:create_date;type:TIMESTAMP"`
 	EndDate      time.Time
+}
+type TestA struct {
+	Id   int
+	Name string `gorm:"column:name;type:char"`
 }
 
 /*

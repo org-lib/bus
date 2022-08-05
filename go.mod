@@ -16,6 +16,7 @@ require (
 	github.com/godror/godror v0.33.3
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/kardianos/service v1.2.1
+	github.com/lib/pq v1.10.6
 	github.com/mailru/go-clickhouse v1.8.0
 	github.com/martinlindhe/notify v0.0.0-20181008203735-20632c9a275a
 	github.com/matoous/go-nanoid/v2 v2.0.0
@@ -67,7 +68,6 @@ require (
 	github.com/juju/errors v0.0.0-20220331221717-b38fca44723b // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/leodido/go-urn v1.2.0 // indirect
-	github.com/lib/pq v1.10.6 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mitchellh/mapstructure v1.4.3 // indirect
