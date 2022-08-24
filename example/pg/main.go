@@ -52,14 +52,15 @@ func main() {
 	//unix/linux 可用 sqlutils
 	//sqlutils.QueryRowsMap 不支持在Windows 上运行，log 包异常
 
-	//（sqlutils postgresql 不支持QueryRowsMap.arg 参数形式）
+	//（sqlutils postgresql, clickhouse QueryRowsMap.arg 参数形式是$num）
+	//（sqlutils mysql QueryRowsMap.arg 参数形式是?）
 
-	err = sqlutils.QueryRowsMap(db2, `select * from t_store_template_task limit 1`, func(m sqlutils.RowMap) error {
-		logger.Log.Info("数据库返回信息：", zap.String("response_date", m.GetString("response_date")))
-		logger.Log.Info("数据库返回信息：", zap.String("order_code", m.GetString("order_code")))
-		logger.Log.Info("数据库返回信息：", zap.String("create_date", m.GetString("create_date")))
+	err = sqlutils.QueryRowsMap(db2, `select * from t_store_template_task where id = $1 limit 1`, func(m sqlutils.RowMap) error {
+		logger.Log.Info("数据库返回信息1：", zap.String("response_date", m.GetString("response_date")))
+		logger.Log.Info("数据库返回信息2：", zap.String("order_code", m.GetString("order_code")))
+		logger.Log.Info("数据库返回信息3：", zap.String("create_date", m.GetString("create_date")))
 		return nil
-	})
+	}, 11)
 	if err != nil {
 		logger.Log.Error(fmt.Sprintf("数据库查询，失败：%v", err), zap.String("postgres2", "运行失败！"))
 	}
@@ -77,13 +78,6 @@ func main() {
 			insert into testa values(4,null);
 			insert into testa values(5,null);
 	*/
-	var test_a []TestA
-	//   查询 执行用Scan 和Find 一样
-	db = db.Raw("select id,name from testa limit 10").Scan(&test_a)
-	for i, user := range test_a {
-		fmt.Println("第-", i, "个 User：", user, "changdu:=", len(user.Name))
-	}
-
 }
 
 type TStoreTemplateTask struct {

@@ -3,6 +3,7 @@ module github.com/org-lib/bus
 go 1.18
 
 require (
+	github.com/ClickHouse/clickhouse-go v1.5.4
 	github.com/antlr/antlr4/runtime/Go/antlr v0.0.0-20220626175859-9abda183db8e
 	github.com/aws/aws-sdk-go v1.44.61
 	github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394
@@ -15,6 +16,7 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/godror/godror v0.33.3
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
+	github.com/jmoiron/sqlx v1.3.3
 	github.com/kardianos/service v1.2.1
 	github.com/lib/pq v1.10.6
 	github.com/mailru/go-clickhouse v1.8.0
@@ -37,6 +39,7 @@ require (
 
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
+	github.com/cloudflare/golz4 v0.0.0-20150217214814-ef862a3cdc58 // indirect
 	github.com/deckarep/gosx-notifier v0.0.0-20180201035817-e127226297fb // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
