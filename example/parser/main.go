@@ -87,12 +87,44 @@ func GetFromClause(sql string, sqlType string) []string {
 
 func main() {
 	//FromClauseContext
-	sql := "create table a(id int(10) ,name);"
+	sql := `
+SELECT
+  t1.id AS id,
+  t1.version AS version,
+  t1.create_time AS createTime,
+  t1.channel_code AS channelCode,
+  t1.customer_code AS customerCode,
+  t1.owner_code AS ownerCode,
+  t1.bin_code AS binCode,
+  t1.sku_code AS skuCode,
+  t1.location_code AS locationCode,
+  t1.share_ratio AS shareRatio,
+  t1.is_availability AS isAvailability,
+  t1.share_thresholds AS shareThresholds,
+  t1.is_specify_sku AS isSpecifySku,
+  t1.operation_status AS operationStatus
+FROM
+  inv_sku_balance_63 t1 FORCE INDEX (idx1_inv_sku_balance)
+  JOIN inv_sku_balance_63 t2 FORCE INDEX (idx1_inv_sku_balance) ON t1.customer_code = t2.customer_code
+  AND t1.bin_code = t2.bin_code
+  AND t1.sku_code = t2.sku_code
+  AND t1.location_code = t2.location_code
+  AND t1.channel_code = t2.channel_code
+  AND t2.customer_code = 'I.TKG'
+  AND t2.owner_code = 'ITMall'
+  AND t2.bin_code = 'PT090'
+  AND t2.sku_code = '5587461-YEX-00S'
+  AND t2.location_code = '999'
+  AND t2.saas_tenant_code = 'baozun'
+  AND t1.saas_tenant_code = 'baozun'
+WHERE
+  t1.saas_tenant_code = 'baozun'`
 	//logs.Info(GetTableNames(sql, "dml"))
-	fmt.Println(GetTableNames(sql, "ddl"))
+	//fmt.Println(GetTableNames(sql, "ddl"))
+	fmt.Println(GetTableNames(sql, "dql"))
 	//fmt.Println(GetSelectColumnElement(sql, "dql"))
 	//fmt.Println(GetSelectExpressionElement(sql, "dql"))
-	//fmt.Println(GetFromClause(sql, "dql"))
+	fmt.Println(GetFromClause(sql, "dql"))
 }
 func (m *Ml) EnterSelectColumnElement(ctx *parser.SelectColumnElementContext) {
 	if m.roleName == nil {

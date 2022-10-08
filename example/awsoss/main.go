@@ -1,4 +1,4 @@
-package awsoss
+package main
 
 import (
 	"fmt"
