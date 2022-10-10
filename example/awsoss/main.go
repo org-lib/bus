@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/endpoints"
@@ -8,6 +9,7 @@ import (
 	aws_s3 "github.com/org-lib/bus/aws/aws-s3"
 	"github.com/org-lib/bus/config"
 	"os"
+	"time"
 )
 
 var (
@@ -57,7 +59,17 @@ func exitErrorf(msg string, args ...interface{}) {
 	fmt.Fprintf(os.Stderr, msg+"\n", args...)
 	os.Exit(1)
 }
-
+func DownLoadUrl() {
+	sses, _ := aws_s3.NewSession(Info)
+	svc := s3.New(sses)
+	req, _ := svc.GetObjectRequest(&s3.GetObjectInput{
+		Bucket: aws.String(Info.Bucket),
+		Key:    aws.String(fmt.Sprintf("dbhouse/yuandeqiao/699/db_lulu_test/testa.zip")),
+	})
+	urlStr, _ := req.Presign(15 * time.Minute)
+	fmt.Println(base64.StdEncoding.EncodeToString([]byte(urlStr)))
+	fmt.Println(urlStr)
+}
 func main() {
 	lists()
 }
