@@ -9,6 +9,7 @@ import (
 	_ "net/http/pprof"
 )
 
+// RegisterServer 注册服务的IP和地址
 func RegisterServer(info *Info) error {
 
 	// 初始化参数检查
@@ -62,6 +63,8 @@ func RegisterServer(info *Info) error {
 	}
 	return nil
 }
+
+// SearchServer 获取 server 注册的 IP和地址
 func SearchServer(info *ClientInfo) (map[string]string, error) {
 	var err error
 	err = CheckIPAddr(info.Address)
