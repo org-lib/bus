@@ -49,7 +49,7 @@ func main() {
 	v1 := router.Group("api")
 	{
 		v1.GET("/hello", handler.HelloWorld)
-
+		v1.GET("/downLoadFile", handler.DownLoadFile)
 	}
 	fmt.Println()
 

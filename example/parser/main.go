@@ -119,8 +119,10 @@ FROM
   AND t1.saas_tenant_code = 'baozun'
 WHERE
   t1.saas_tenant_code = 'baozun'`
+	sql2 := `alter  table bi_sku  modify  brand_name varchar(100) comment '111';`
 	//logs.Info(GetTableNames(sql, "dml"))
 	//fmt.Println(GetTableNames(sql, "ddl"))
+	fmt.Println(GetTableNames(sql2, "ddl"))
 	fmt.Println(GetTableNames(sql, "dql"))
 	//fmt.Println(GetSelectColumnElement(sql, "dql"))
 	//fmt.Println(GetSelectExpressionElement(sql, "dql"))
