@@ -8,16 +8,23 @@
 让开发 golang 更轻松快速、不需要到处寻找资源库
 
     代码目录结构：
+    aliyun          oss-options
     assets          #
+    aws             oss-options
     config          #封装的 viper 包
-    cors            #
+    cors            #跨域请求
     db              #数据库连接基础驱动包
+    disk            磁盘空间-options
     example         #数据库、makeapp、api、并发控制 etc. 的使用例子
     img             #
     logger          #封装的 zap 包
     msi             #Windows msi 编译包 ， 暂时未开放，需要使用请联系项目开发者shangguannihao@gmail.com
+    nanoid          生成唯一ID
+    notify          系统弹窗提示
+    parser          数据库SQL 语法解析
     pool            #
     xshell          #命令行窗口
+    xxl-job         定时任务
     README.md       #说明书
 目前分为如下几个部分：
 
