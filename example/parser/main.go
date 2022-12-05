@@ -120,6 +120,7 @@ FROM
 WHERE
   t1.saas_tenant_code = 'baozun'`
 	sql2 := `alter  table bi_sku  modify  brand_name varchar(100) comment '111';`
+	sql3 := `db.name_table.find({})`
 	//logs.Info(GetTableNames(sql, "dml"))
 	//fmt.Println(GetTableNames(sql, "ddl"))
 	fmt.Println(GetTableNames(sql2, "ddl"))
@@ -127,6 +128,7 @@ WHERE
 	//fmt.Println(GetSelectColumnElement(sql, "dql"))
 	//fmt.Println(GetSelectExpressionElement(sql, "dql"))
 	fmt.Println(GetFromClause(sql, "dql"))
+	fmt.Println(GetFromClause(sql3, "dql"))
 }
 func (m *Ml) EnterSelectColumnElement(ctx *parser.SelectColumnElementContext) {
 	if m.roleName == nil {

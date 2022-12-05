@@ -32,7 +32,6 @@ func init() {
 }
 
 func Do2wb(ctx *gin.Context) {
-
 	sses, _ := aws_s3.NewSession(Info)
 	svc := s3.New(sses)
 	response, _ := svc.GetObject(&s3.GetObjectInput{
