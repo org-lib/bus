@@ -15,7 +15,7 @@ type Info struct {
 	ExpireTime int64  `json:"-"`
 }
 
-func NewSession(info *Info) (*oss.Client, error) {
+func NewSession(info Info) (*oss.Client, error) {
 	// 创建OSSClient实例。
 	client, err := oss.New(info.Endpoint, info.AccessKey, info.SecretKey)
 	if err != nil {
