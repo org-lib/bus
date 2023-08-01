@@ -9,8 +9,8 @@ import (
 
 func main() {
 	//定义 cfg 对象
-	var cfg *redis.Info
-	cfg = &redis.Info{
+	var cfg redis.Info
+	cfg = redis.Info{
 		Host:     config.Config.V.GetString("redis.host"),
 		Port:     config.Config.V.GetInt("redis.port"),
 		DB:       config.Config.V.GetInt("redis.db"),

@@ -14,9 +14,9 @@ func main() {
 	//初始换数据库连接信息
 
 	//定义 cfg 对象
-	var cfg *clickhouse.Info
+	var cfg clickhouse.Info
 
-	cfg = &clickhouse.Info{
+	cfg = clickhouse.Info{
 		Host:     config.Config.V.GetString("clickhouse.host"),
 		Port:     config.Config.V.GetString("clickhouse.port"),
 		Database: config.Config.V.GetString("clickhouse.database"),

@@ -21,5 +21,6 @@ build/
 log/
 # Config yaml /json etc.
 configdevx.yaml
+config.yaml
 
 # go mod file

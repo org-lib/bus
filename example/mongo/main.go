@@ -18,8 +18,8 @@ import (
 func main() {
 
 	//定义 cfg 对象
-	var cfg *mongodb.Info
-	cfg = &mongodb.Info{
+	var cfg mongodb.Info
+	cfg = mongodb.Info{
 		Host:          config.Config.V.GetString("mongo.host"),
 		Port:          config.Config.V.GetString("mongo.port"),
 		Username:      config.Config.V.GetString("mongo.username"),

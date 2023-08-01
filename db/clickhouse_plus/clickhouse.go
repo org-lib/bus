@@ -17,7 +17,7 @@ type Info struct {
 }
 
 // Open 获取数据库连接
-func Open(cfg *Info) (*sqlx.DB, error) {
+func Open(cfg Info) (*sqlx.DB, error) {
 	path := fmt.Sprintf("tcp://%v:%v?debug=true&username=%v&password=%v&database=%v",
 		cfg.Host,
 		cfg.Port,

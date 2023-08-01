@@ -13,7 +13,7 @@ type Info struct {
 	Password string
 }
 
-func NewClient(cnf *Info) *redis.Client {
+func NewClient(cnf Info) *redis.Client {
 	if cnf.Host == "" {
 		fmt.Println("使用了默认地址：localhost")
 		cnf.Host = "localhost"

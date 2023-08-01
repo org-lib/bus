@@ -17,7 +17,7 @@ type Info struct {
 	TmpDir    string `json:"-"`
 }
 
-func NewSession(info *Info) (*session.Session, error) {
+func NewSession(info Info) (*session.Session, error) {
 	sess, err := session.NewSession(&aws.Config{
 		Credentials:      credentials.NewStaticCredentials(info.AccessKey, info.SecretKey, ""),
 		Endpoint:         aws.String(info.Endpoint),

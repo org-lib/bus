@@ -13,9 +13,9 @@ func main() {
 	//初始换数据库连接信息
 
 	//定义 cfg 对象
-	var cfg *mysql.Info
+	var cfg mysql.Info
 
-	cfg = &mysql.Info{
+	cfg = mysql.Info{
 		Host:         config.Config.V.GetString("mysql.host"),
 		Port:         config.Config.V.GetString("mysql.port"),
 		Database:     "mysql",

@@ -11,12 +11,12 @@ import (
 )
 
 var (
-	Info *aws_s3.Info
+	Info aws_s3.Info
 )
 
 func init() {
 	var viper = config.Config.V
-	Info = &aws_s3.Info{
+	Info = aws_s3.Info{
 		Endpoint:  viper.GetString("s3.s3-endpoint"),
 		AccessKey: viper.GetString("s3.s3-access-key"),
 		SecretKey: viper.GetString("s3.s3-secret-key"),

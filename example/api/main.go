@@ -49,6 +49,7 @@ func main() {
 	v1 := router.Group("api")
 	{
 		v1.GET("/hello", handler.HelloWorld)
+		v1.POST("/hello2", handler.HelloWorldPost)
 		//通过二进制流从 oss 发送到浏览器
 		v1.GET("/do2wb", handler.Do2wb)
 		v1.GET("/downLoadFile", handler.DownLoadFile)

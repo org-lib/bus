@@ -24,7 +24,7 @@ type Info struct {
 }
 
 // Open 获取一个数据库连接
-func Open(cnf *Info) (*gorm.DB, error) {
+func Open(cnf Info) (*gorm.DB, error) {
 	if strings.Trim(cnf.Database, " ") == "" {
 		return nil, errors.New("*** 请至指定一个数据库名称")
 	}
@@ -51,7 +51,7 @@ func Open(cnf *Info) (*gorm.DB, error) {
 }
 
 // OpenPlus 获取一个数据库连接
-func OpenPlus(cnf *Info) (*sql.DB, error) {
+func OpenPlus(cnf Info) (*sql.DB, error) {
 	if strings.Trim(cnf.Database, " ") == "" {
 		return nil, errors.New("*** 请至指定一个数据库名称")
 	}

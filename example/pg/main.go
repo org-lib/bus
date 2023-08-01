@@ -18,9 +18,9 @@ import (
 
 func main() {
 	//定义 cfg 对象
-	var cfg *postgresql.Info
+	var cfg postgresql.Info
 
-	cfg = &postgresql.Info{
+	cfg = postgresql.Info{
 		Host:     config.Config.V.GetString("postgres.host"),
 		Port:     config.Config.V.GetString("postgres.port"),
 		Database: config.Config.V.GetString("postgres.database"),

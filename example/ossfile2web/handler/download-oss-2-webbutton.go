@@ -12,12 +12,12 @@ import (
 )
 
 var (
-	Info *aws_s3.Info
+	Info aws_s3.Info
 )
 
 func init() {
 	var viper = config.Config.V
-	Info = &aws_s3.Info{
+	Info = aws_s3.Info{
 		Endpoint:  viper.GetString("s3.s3-endpoint"),
 		AccessKey: viper.GetString("s3.s3-access-key"),
 		SecretKey: viper.GetString("s3.s3-secret-key"),
@@ -66,7 +66,7 @@ func Do2wb(ctx *gin.Context) {
 	// 响应 OSS 对象
 	ctx.DataFromReader(200, *response.ContentLength, *response.ContentType, response.Body, nil)
 }
-func existBucket(info *aws_s3.Info) (error, bool) {
+func existBucket(info aws_s3.Info) (error, bool) {
 	var exi bool
 	ses, _ := aws_s3.NewSession(info)
 	svc := s3.New(ses)

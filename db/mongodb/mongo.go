@@ -19,7 +19,7 @@ type Info struct {
 }
 
 // Open 获取一个数据库连接
-func Open(cnf *Info) (*mongo.Client, error) {
+func Open(cnf Info) (*mongo.Client, error) {
 	var url string
 	if strings.Trim(cnf.Username, " ") == "" || strings.Trim(cnf.Password, " ") == "" {
 		url = fmt.Sprintf("mongodb://%v:%v", cnf.Host, cnf.Port)
