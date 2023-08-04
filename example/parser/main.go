@@ -37,6 +37,7 @@ func ParseSQL(sql string) []string {
 	return ml.GetTableNames()
 }
 
+// github.com/akito0107/xsqlparser 支持with 语法
 func main() {
 	sql1 := "SELECT * FROM table1;"
 	fmt.Println(ParseSQL(sql1))
