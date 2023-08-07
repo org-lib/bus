@@ -19,6 +19,16 @@ func Cors() gin.HandlerFunc {
 	})
 	return handlerFunc
 }
+func CorsV2() gin.HandlerFunc {
+	handlerFunc := cors.New(cors.Config{
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"},
+		AllowHeaders:     []string{"Authentication"}, //此处设置非默认之外的请求头(自定义请求头),否则会出现跨域问题
+		AllowAllOrigins:  true,
+		AllowCredentials: true,
+		MaxAge:           24 * time.Hour,
+	})
+	return handlerFunc
+}
 
 // 处理跨域请求,支持options访问
 func ECors() gin.HandlerFunc {
