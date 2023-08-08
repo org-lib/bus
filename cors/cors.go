@@ -9,7 +9,7 @@ import (
 
 //允许跨域
 
-func Cors() gin.HandlerFunc {
+func CorsV1() gin.HandlerFunc {
 	handlerFunc := cors.New(cors.Config{
 		AllowMethods:     []string{"*"},
 		AllowHeaders:     []string{"Authentication"}, //此处设置非默认之外的请求头(自定义请求头),否则会出现跨域问题
@@ -21,8 +21,9 @@ func Cors() gin.HandlerFunc {
 }
 func CorsV2() gin.HandlerFunc {
 	handlerFunc := cors.New(cors.Config{
-		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"},
-		AllowHeaders:     []string{"Authentication"}, //此处设置非默认之外的请求头(自定义请求头),否则会出现跨域问题
+		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"},
+		AllowHeaders: []string{"Content-Type", "Content-time", "Content-Length" +
+			"Accept-Encoding", "X-CSRF-Token", "Authorization", "Accept", "Origin", "Cache-Control", "X-Requested-With"}, //此处设置非默认之外的请求头(自定义请求头),否则会出现跨域问题
 		AllowAllOrigins:  true,
 		AllowCredentials: true,
 		MaxAge:           24 * time.Hour,
