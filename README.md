@@ -1,7 +1,8 @@
 <p align="center">
         <img src="img/logo.jpg">
 </p>
-
+本代码库禁止中国地区使用，有任何问题概不负责
+除非付费支持定制服务
 # bus
 极简
 
